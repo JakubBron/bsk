@@ -23,5 +23,5 @@ def pendrive_app():
     except Exception as e:
         print(e)
     
-
-pendrive_app()
+if __name__ == "__main__":
+    pendrive_app()

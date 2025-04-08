@@ -61,11 +61,14 @@ class Pendrive:
         cipher = AES.new(self.aes_key, AES.MODE_CBC, MODES.AES_IV)
         return unpad(cipher.decrypt(encrypted), AES.block_size).decode()
 
-    def generate_RSA_key(self) -> (str, str):
+    def generate_RSA_key(self, encrypt=True) -> (str, str):
         key = RSA.generate(LENGTHS.RSA_LENGTH)
         public_key = key.publickey().export_key().decode()
         private_key = key.export_key().decode()
-        private_key_encrypted = self.encrypt_AES(private_key)
+        private_key_encrypted = private_key
+        if encrypt == True:
+            private_key_encrypted = self.encrypt_AES(private_key)
+
         return (public_key, private_key_encrypted)
     
     def save_RSA_keys(self) -> str:
