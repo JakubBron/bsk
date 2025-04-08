@@ -55,7 +55,7 @@ class PDF_Signer:
             return msg
         
 
-        return "PDF signed and created!"
+        return "\n=================================\nPDF signed and created!\n=================================\n"
 
 
 class PDF_Verifier:
@@ -89,9 +89,9 @@ class PDF_Verifier:
         try:
             decrypted_hash_bytes = signed_hash.to_bytes(LENGTHS.SHA_LENGTH//8, byteorder='big')
         except OverflowError:
-            return "Signaure not valid, PDF was changed!"
+            return "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\nSignaure not valid, PDF was changed!\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
 
         if pdf_content_hash == decrypted_hash_bytes:
-            return "Signature is valid."
+            return "\n=================================\nSignature is valid!\n=================================\n"
         else:
-            return "Signaure not valid, PDF was changed!"
+            return "\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\nSignaure not valid, PDF was changed!\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
