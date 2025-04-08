@@ -32,9 +32,10 @@ class Pendrive:
 
     def set_pin(self, new_pin: int) -> None:
         """
-        Method which sets the pin of the pendrive.
+        Method which sets the pin of the pendrive. Setting new pin must set new AES key as well.
         """
         self.pin = new_pin
+        self.aes_key = self.generate_AES_key(new_pin)
 
     def get_pin(self) -> int:
         """
@@ -64,7 +65,6 @@ class Pendrive:
         key = RSA.generate(LENGTHS.RSA_LENGTH)
         public_key = key.publickey().export_key().decode()
         private_key = key.export_key().decode()
-
         private_key_encrypted = self.encrypt_AES(private_key)
         return (public_key, private_key_encrypted)
     
@@ -73,11 +73,8 @@ class Pendrive:
         if not os.path.exists(FILENAMES.DRIVE):
             return f"Drive {FILENAMES.DRIVE} is not plugged in or is dagamed!"
 
-        try:
-            with open(FILENAMES.PUBLIC_KEY, "w") as f:
-                f.write(public_key)
-        except Exception as e:
-            return f"Unable to save {FILENAMES.PUBLIC_KEY} file! {e}"
+        if not os.path.exists(FILENAMES.DRIVE_LOCAL):
+            return f"Drive {FILENAMES.DRIVE_LOCAL} is not plugged in or is dagamed!"
 
         try:    
             with open(FILENAMES.PRIVATE_KEY_ENCRYPTED, "w") as f:
@@ -85,6 +82,12 @@ class Pendrive:
         except Exception as e:
             return f"Unable to save {FILENAMES.PRIVATE_KEY_ENCRYPTED} file! {e}"
         
+        try:
+            with open(FILENAMES.PUBLIC_KEY, 'w') as f:
+                f.write(public_key)
+        except Exception as e:
+            return f"Unable to save {FILENAMES.PUBLIC_KEY} file! {e}"
+
         return "RSA keys saved!"
     
     def get_RSA_public_key(self) -> str:
@@ -110,4 +113,4 @@ class Pendrive:
             return f"UNABLE TO READ {FILENAMES.PRIVATE_KEY_ENCRYPTED} file! {e}"
 
     def check_if_RSA_keys_exist(self) -> bool:
-        return os.path.isfile(FILENAMES.PUBLIC_KEY) and os.path.isfile(FILENAMES.PRIVATE_KEY_ENCRYPTED)
+        return os.path.isfile(FILENAMES.PRIVATE_KEY_ENCRYPTED)

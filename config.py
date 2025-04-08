@@ -6,9 +6,10 @@ class LENGTHS:
     RSA_LENGTH = 4096
 
 class FILENAMES:
-    DRIVE = "T:"
-    PUBLIC_KEY = "T:\public_key.pem"
-    PRIVATE_KEY_ENCRYPTED = "T:\private_key_encrypted.pem"
+    DRIVE = "D:"
+    DRIVE_LOCAL = "."
+    PUBLIC_KEY = DRIVE_LOCAL+"\public_key.pem"
+    PRIVATE_KEY_ENCRYPTED = DRIVE+"\private_key_encrypted.pem"
 
 class MODES:
     AES_MODE = 2        # AES.MODE_CBC

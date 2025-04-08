@@ -15,7 +15,8 @@ def pendrive_app():
             print("RSA keys do not exist! \n")
             print("Creating RSA keys...")
             pin = int(input("Enter pin: "))
-            p = Pendrive(pin)
+            p.set_pin(pin)
+            print("Creating keys... Please wait.")
             result = p.save_RSA_keys()
             print(result)
 
