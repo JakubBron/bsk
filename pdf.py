@@ -48,7 +48,7 @@ class PDF_Signer:
 
         try:
             with open(self.path_to_signed_pdf, 'wb') as f:
-                f.write(pdf+signature_bin)
+                f.write(pdf+b"\nSIGNATURE\n"+signature_bin)
         
         except Exception as e:
             msg = f"Unable to create signed PDF to {self.path_to_signed_pdf} file! {e}"
@@ -76,7 +76,8 @@ class PDF_Verifier:
         try:
             with open(self.path_to_signed_pdf, 'rb') as f:
                 content = f.read()
-                pdf_content, pdf_signature = content[:-LENGTHS.SIGNATURE_LENGTH], content[-LENGTHS.SIGNATURE_LENGTH:]
+                pdf_content, pdf_signature = content[:-LENGTHS.SIGNATURE_LENGTH-len("\nSIGNATURE\n")], content[-LENGTHS.SIGNATURE_LENGTH:]
+                print(pdf_signature)
         except Exception as e:
             return f"Unable to read signed PDF. Exception: {e}"
 
