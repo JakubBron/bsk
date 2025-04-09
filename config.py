@@ -1,6 +1,6 @@
 import os
 
-DEFAULT_PIN = 1234
+#DEFAULT_PIN = 1234
 
 class LENGTHS:
     AES_LENGTH = 256
@@ -9,10 +9,12 @@ class LENGTHS:
     SIGNATURE_LENGTH = 512
 
 class FILENAMES:
-    DRIVE = "T:"
+    #DRIVE = "T:"
     DRIVE_LOCAL = "."
-    PUBLIC_KEY = os.path.join(DRIVE_LOCAL, "public_key.pem")
-    PRIVATE_KEY_ENCRYPTED = os.path.join(DRIVE, "\private_key_encrypted.pem")
+    #PUBLIC_KEY = os.path.join(DRIVE_LOCAL, "public_key.pem")
+    #PRIVATE_KEY_ENCRYPTED = os.path.join(DRIVE, "\private_key_encrypted.pem")
+    PUBLIC_KEY = "public_key.pem"
+    PRIVATE_KEY_ENCRYPTED = "private_key_encrypted.pem"
 
 class MODES:
     AES_MODE = 2        # AES.MODE_CBC

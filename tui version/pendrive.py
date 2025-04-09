@@ -12,21 +12,22 @@ class Pendrive:
     """
     pin = None
     aes_key = None
-    drive = None
-    private_key_path = None
-    public_key_path = None
 
-    def __init__(self, drive, public_key_path=None, pin=None):
+    def __init__(self):
         """
         Constructor of the class.
         """
-        if not os.path.exists(drive):
-            raise Exception(f"Drive {drive} is not plugged in or is damaged!")
+        self.pin = None
+        self.aes_key = None
+    
+    def __init__(self, pin: int) -> None:
+        """
+        Constructor of the class.
+        """
+        if not os.path.exists(FILENAMES.DRIVE):
+            raise Exception(f"Drive {FILENAMES.DRIVE} is not plugged in or is damaged!")
         self.pin = pin
-        self.aes_key = self.generate_AES_key(pin) if pin else None
-        self.drive = drive
-        self.private_key_path = os.path.join(drive, FILENAMES.PRIVATE_KEY_ENCRYPTED)
-        self.public_key_path = os.path.join(public_key_path, FILENAMES.PUBLIC_KEY)
+        self.aes_key = self.generate_AES_key(pin)
 
 
     def set_pin(self, new_pin: int) -> None:
@@ -72,33 +73,36 @@ class Pendrive:
     
     def save_RSA_keys(self) -> str:
         public_key, private_key_encrypted = self.generate_RSA_key()
-        if not os.path.exists(self.drive):
-            return f"Drive {self.drive} is not plugged in or is dagamed!"
+        if not os.path.exists(FILENAMES.DRIVE):
+            return f"Drive {FILENAMES.DRIVE} is not plugged in or is dagamed!"
+
+        if not os.path.exists(FILENAMES.DRIVE_LOCAL):
+            return f"Drive {FILENAMES.DRIVE_LOCAL} is not plugged in or is dagamed!"
 
         try:    
-            with open(self.private_key_path, "w") as f:
+            with open(FILENAMES.PRIVATE_KEY_ENCRYPTED, "w") as f:
                 f.write(private_key_encrypted)
         except Exception as e:
-            return f"Unable to save {self.private_key_path} file! {e}"
+            return f"Unable to save {FILENAMES.PRIVATE_KEY_ENCRYPTED} file! {e}"
         
         try:
-            with open(self.public_key_path, 'w') as f:
+            with open(FILENAMES.PUBLIC_KEY, 'w') as f:
                 f.write(public_key)
         except Exception as e:
-            return f"Unable to save {self.public_key_path} file! {e}"
+            return f"Unable to save {FILENAMES.PUBLIC_KEY} file! {e}"
 
-        return f"RSA keys saved {self.private_key_path} {self.public_key_path}!"
+        return "RSA keys saved!"
     
     def get_RSA_public_key(self) -> str:
         try:
-            with open(self.public_key_path, "r") as f:
+            with open(FILENAMES.PUBLIC_KEY, "r") as f:
                 return f.read()
         except Exception as e:
-            return f"UNABLE TO READ {self.public_key_path} file! {e}"
+            return f"UNABLE TO READ {FILENAMES.PUBLIC_KEY} file! {e}"
     
     def get_RSA_private_key(self) -> str:
         try:
-            with open(self.private_key_path, "r") as f:
+            with open(FILENAMES.PRIVATE_KEY_ENCRYPTED, "r") as f:
                 content = f.read()
                 return self.decrypt_AES(content)
         except Exception as e:
@@ -106,10 +110,10 @@ class Pendrive:
     
     def get_RSA_private_key_encrypted(self) -> str:
         try:
-            with open(self.drive+'\\'+FILENAMES.PRIVATE_KEY_ENCRYPTED, "r") as f:
+            with open(FILENAMES.PRIVATE_KEY_ENCRYPTED, "r") as f:
                 return f.read()
         except Exception as e:
             return f"UNABLE TO READ {FILENAMES.PRIVATE_KEY_ENCRYPTED} file! {e}"
 
     def check_if_RSA_keys_exist(self) -> bool:
-        return os.path.isfile(self.public_key_path)
+        return os.path.isfile(FILENAMES.PRIVATE_KEY_ENCRYPTED)

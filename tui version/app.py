@@ -1,11 +1,8 @@
 from pendrive import Pendrive
 from config import DEFAULT_PIN
 from pdf import PDF_Signer, PDF_Verifier
-from PyQt5 import QtWidgets
-from main_window import Ui_MainWindow
 
 import os
-
 
 def get_RSA() -> (str, str):
     try:
@@ -36,14 +33,13 @@ def get_RSA() -> (str, str):
             print("Public key (stored somewhere else)\n" + "Len is: " + str(len(RSA_public_key)))
             print("Private key: \n" + "Len is " + str(len(RSA_private_key)))
             return RSA_public_key, RSA_private_key
-
+        
         else:
             print("RSA keys do not exist!")
             print("Use pendrive_app.py to create new RSA.")
-            return 1, 1
+            return 1,1
     except Exception as e:
         print(e)
-
 
 def get_PDF_to_sign(priv):
     print("Enter path to PDF file to sign:")
@@ -56,7 +52,6 @@ def get_PDF_to_sign(priv):
     else:
         print("\nFile does not exist or is not supported!")
 
-
 def get_PDF_to_verify(pub):
     print("Enter path to PDF file to verify:")
     path = input("Path: ")
@@ -67,7 +62,6 @@ def get_PDF_to_verify(pub):
         print(result)
     else:
         print("\nFile does not exist or is not suppoted!")
-
 
 def app():
     print("Welcome to PDF signer! \n\n")
@@ -94,9 +88,7 @@ def app():
                     break
                 case _:
                     print("Unknown command!")
-
-
-
+   
 
 if __name__ == "__main__":
-    app()
+   app()

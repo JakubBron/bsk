@@ -13,13 +13,13 @@ class PDF_Signer:
     path_to_pdf = None
     path_to_signed_pdf = None
 
-    def __init__(self, private_key, path: str, target_path: str) -> None:
+    def __init__(self, private_key, path: str) -> None:
         """
         Constructor of the class.
         """
         self.private_key = RSA.import_key(private_key)
         self.path_to_pdf = path
-        self.path_to_signed_pdf = target_path#+"_SIGNED_.pdf"
+        self.path_to_signed_pdf = path.split('.pdf')[0]+"_SIGNED_.pdf"
 
     def create_signature(self, pdf_hash):
         """
@@ -63,6 +63,7 @@ class PDF_Verifier:
     Class to verify sign on PDF file.
     """
     public_key = None
+    private_key = None
     path_to_signed_pdf = None
 
     def __init__(self, public_key, path: str) -> None:
@@ -73,6 +74,8 @@ class PDF_Verifier:
         self.path_to_signed_pdf = path
 
     def validate_signature(self):
+        pdf_content = None
+        pdf_signature = None
         try:
             with open(self.path_to_signed_pdf, 'rb') as f:
                 content = f.read()
