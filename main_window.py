@@ -257,8 +257,8 @@ class Ui_MainWindow(object):
             while self.pen is None:
                 pin = QtWidgets.QInputDialog.getText(None, "Enter PIN", "PIN:", QtWidgets.QLineEdit.Password)
                 if pin[1]:
-                    self.pen = Pendrive(drive, public_key_path, int(pin[0]))
-                    self.pen.set_pin(int(pin[0]))
+                    self.pen = Pendrive(drive, public_key_path, pin[0])
+                    self.pen.set_pin(pin[0])
                     if self.pen.check_if_RSA_keys_exist():
                         self.keysStatus.setText("Keys are present")
                         self.keysStatus.setStyleSheet("color: green;")
