@@ -24,7 +24,7 @@
 */
 var NAVTREE =
 [
-  [ "BSK projekt", "index.html", [
+  [ "BSK project", "index.html", [
     [ "BSK", "md_readme.html", [
       [ "Requirements", "md_readme.html#autotoc_md1", null ],
       [ "Run app", "md_readme.html#autotoc_md2", null ]
