@@ -1,8 +1,8 @@
 ## @file pdf.py
 #  @brief Provides PDF signing and verification using RSA keys.
 
-import os
 import hashlib
+
 from Crypto.PublicKey import RSA
 
 from config import LENGTHS

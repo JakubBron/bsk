@@ -1,11 +1,11 @@
 import os
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
 from psutil import disk_partitions
 
 from config import FILENAMES
-from pendrive import Pendrive
 from pdf import PDF_Signer, PDF_Verifier
+from pendrive import Pendrive
 
 
 class Ui_MainWindow(object):
